@@ -1,0 +1,2 @@
+export const SHOW_ALL_BENEFITS = 'SHOW_ALL_BENEFITS'
+export const SHOW_ALL_PAGES = 'SHOW_ALL_PAGES'
