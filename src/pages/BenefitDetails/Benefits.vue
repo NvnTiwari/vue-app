@@ -8,7 +8,15 @@
         <v-toolbar flat color="white">
           <h2>View Benefit Details</h2>
           <v-spacer></v-spacer>
-          <EditBenefits :item="editedItem" :dialog="dialog" />
+          <v-tooltip left>
+          <template v-slot:activator="{ on }">
+          <v-btn class="ma-2" outlined v-on="on" small fab color="indigo" @click="openEditBenefit()">
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+          </template>
+          <span>Add Benefit</span>
+        </v-tooltip>
+          <EditBenefits :dialog="dialog" :item="editedItem" @benefit-dialog="update" />
         </v-toolbar>
       </template>
       <template v-slot:item.actions="{ item }">
@@ -85,6 +93,15 @@ export default {
     }
   },
   methods: {
+
+    update (dialog) {
+      this.dialog = false
+    },
+
+    openEditBenefit () {
+      this.dialog = true
+    },
+
     editItem (item) {
       this.editedIndex = this.benefits.indexOf(item)
       this.editedItem = Object.assign({}, item)

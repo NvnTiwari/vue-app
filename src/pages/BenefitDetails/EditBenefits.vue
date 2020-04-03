@@ -1,25 +1,8 @@
 <template>
-  <v-dialog fullscreen v-model="dialog" max-width="500px">
-    <template #activator="{ on: dialog }">
-      <v-tooltip left>
-        <template #activator="{ on: tooltip }">
-          <v-btn
-            class="ma-2"
-            v-on="{ ...tooltip, ...dialog }"
-            outlined
-            small
-            fab
-            color="indigo"
-          >
-            <v-icon>mdi-plus</v-icon>
-          </v-btn>
-        </template>
-        <span>Add Benefits</span>
-      </v-tooltip>
-    </template>
+  <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
     <v-card>
       <v-toolbar dark color="primary">
-        <v-btn icon dark @click="dialog = false">
+        <v-btn icon dark @click="close">
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
@@ -70,10 +53,8 @@
                 v-model="menu"
                 :close-on-content-click="false"
                 :nudge-right="40"
-                lazy
                 transition="scale-transition"
                 offset-y
-                full-width
                 min-width="290px"
               >
                 <template v-slot:activator="{ on }">
@@ -97,10 +78,8 @@
                 v-model="menu1"
                 :close-on-content-click="false"
                 :nudge-right="40"
-                lazy
                 transition="scale-transition"
                 offset-y
-                full-width
                 min-width="290px"
               >
                 <template v-slot:activator="{ on }">
@@ -176,11 +155,7 @@ export default {
   },
   methods: {
     close () {
-      this.dialog = false
-      setTimeout(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
-      }, 300)
+      this.$emit('benefit-dialog', false)
     },
 
     save () {
