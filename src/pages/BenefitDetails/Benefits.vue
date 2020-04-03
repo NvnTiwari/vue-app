@@ -53,13 +53,12 @@
 import { mapGetters } from 'vuex'
 
 import { eventBus } from '../../main'
-import Header from '../Header.vue'
+// import Header from '../Header.vue'
 import EditBenefits from './EditBenefits.vue'
-import ConfirmBox from '../ConfirmDialog.vue'
+import ConfirmBox from '../../components/common/ConfirmDialog.vue'
 
 export default {
   components: {
-    Header,
     EditBenefits,
     ConfirmBox
   },

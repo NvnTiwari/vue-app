@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Benefits from '../components/BenefitDetails/Benefits.vue'
-import Pages from '../components/BenefitPages/BenefitPage.vue'
-import BenefitCategory from '../components/BenefitCategories/Categories.vue'
+import Benefits from '../pages/BenefitDetails/Benefits.vue'
+import Pages from '../pages/BenefitPages/BenefitPage.vue'
+import BenefitCategory from '../pages/BenefitCategories/Categories.vue'
 import Auth from '@okta/okta-vue'
 
 Vue.use(Auth, {
