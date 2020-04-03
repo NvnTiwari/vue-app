@@ -1,8 +1,9 @@
 <template>
   <v-app id="inspire">
     <Tabs />
-    <router-view/>
-    
+    <v-content>
+      <router-view/>
+    </v-content>
   </v-app>
 </template>
 
@@ -16,5 +17,10 @@ export default {
 </script>
 
 <style>
-
+  * {
+    font-family: Interstate-Regular,Sans-serif
+  }
+  h2 {
+    color: #333;
+  }
 </style>

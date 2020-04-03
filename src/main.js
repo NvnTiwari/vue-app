@@ -6,11 +6,9 @@ import router from './router'
 import store from './store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-
 import vuetify from '@/plugins/vuetify'
 
 Vue.use(VueAxios, axios)
-
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
@@ -22,3 +20,5 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
+
+export const eventBus = new Vue()

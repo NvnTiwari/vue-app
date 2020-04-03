@@ -153,23 +153,23 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       dialog: false,
       dialog2: false,
       desserts: [
         {
-          name: "Banner 1",
+          name: 'Banner 1',
           calories: 1,
-          numbers: "LARGE"
+          numbers: 'LARGE'
         },
         {
-          name: "Banner 2",
+          name: 'Banner 2',
           calories: 2,
-          numbers: "LARGE"
+          numbers: 'LARGE'
         }
       ]
-    };
+    }
   }
-};
+}
 </script>

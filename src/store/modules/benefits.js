@@ -17,16 +17,16 @@ const getters = {
 const actions = {
 
   // get data from getBenefits API
-  getAllBenefits({ commit }) {
-      benefitsAPI.getBenefits(benefit => {
-        commit(mutationType.SHOW_ALL_BENEFITS, benefit)
-      })
+  getAllBenefits ({ commit }) {
+    benefitsAPI.getBenefits(benefit => {
+      commit(mutationType.SHOW_ALL_BENEFITS, benefit)
+    })
   }
 }
 
 // initial mutation
 const mutations = {
-  [mutationType.SHOW_ALL_BENEFITS](state, benefit) {
+  [mutationType.SHOW_ALL_BENEFITS] (state, benefit) {
     state.all = benefit
   }
 }

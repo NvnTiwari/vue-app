@@ -20,7 +20,7 @@ const actions = {
 }
 
 const mutations = {
-  [mutationType.SHOW_ALL_PAGES](state, page) {
+  [mutationType.SHOW_ALL_PAGES] (state, page) {
     state.allPages = page
   }
 }

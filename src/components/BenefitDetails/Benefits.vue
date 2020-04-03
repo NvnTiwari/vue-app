@@ -1,79 +1,123 @@
 <template>
   <div>
-    <v-app id="inspire">
-      
-      <!-- <Header />
-      <Tabs /> -->
-      <v-simple-table>
-        <template v-slot:default>
-          <thead>
-            <tr>
-              <th class="text-left">BenefitID</th>
-              <th class="text-left">Benefit Category</th>     
-              <th class="text-left">Description</th>
-              <th class="text-left">Start Date</th>
-              <th class="text-left">End Date</th>
-              <th class="text-left">
-                <EditBenefits />
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="item in benefits" :key="item.benefitId">
-              <td>{{ item.benefitId }}</td>
-              <td>{{ item.category }}</td>
-              <td>{{ item.description }}</td>
-              <td>{{ item.startDate }}</td>
-              <td>{{ item.endDate }}</td>
-              <td>
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on }">
-                    <v-btn class="ma-2" outlined v-on='on' x-small fab color="primary">
-                      <v-icon>mdi-pencil</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>Edit</span>
-                </v-tooltip>
-
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on }">
-                    <v-btn class="ma-2" outlined v-on='on' x-small fab color="red">
-                      <v-icon>mdi-trash-can-outline</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>Delete</span>
-                </v-tooltip>
-              </td>
-            </tr>
-          </tbody>
-        </template>
-      </v-simple-table>
-    </v-app>
+    <div v-if="showConfirmBox">
+      <ConfirmBox message="Do you wish to delete the benefit?" :onClick="closeConfirmBox"/>
+    </div>
+    <v-data-table :headers="headers" :items="benefits" class="elevation-1">
+      <template v-slot:top>
+        <v-toolbar flat color="white">
+          <h2>View Benefit Details</h2>
+          <v-spacer></v-spacer>
+          <EditBenefits :item="editedItem" :dialog="dialog" />
+        </v-toolbar>
+      </template>
+      <template v-slot:item.actions="{ item }">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              class="ma-2"
+              @click="editItem(item)"
+              outlined
+              v-on="on"
+              x-small
+              fab
+              color="primary"
+            >
+              <v-icon>mdi-pencil</v-icon>
+            </v-btn>
+          </template>
+          <span>Edit</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              class="ma-2"
+              @click="deleteItem(item)"
+              outlined
+              v-on="on"
+              x-small
+              fab
+              color="red"
+            >
+              <v-icon>mdi-trash-can-outline</v-icon>
+            </v-btn>
+          </template>
+          <span>Delete</span>
+        </v-tooltip>
+      </template>
+    </v-data-table>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 
-import Header from "../Header.vue";
-import EditBenefits from "./EditBenefits.vue";
-import Tabs from "../Tabs.vue";
+import { eventBus } from '../../main'
+import Header from '../Header.vue'
+import EditBenefits from './EditBenefits.vue'
+import ConfirmBox from '../ConfirmDialog.vue'
 
 export default {
   components: {
     Header,
-    EditBenefits
+    EditBenefits,
+    ConfirmBox
+  },
+  data () {
+    return {
+      item: null,
+      isLoading: false,
+      dialog: false,
+      showConfirmBox: false,
+      editedIndex: -1,
+      editedItem: {},
+      deletedIndex: -1,
+      headers: [
+        {
+          text: 'BenefitID',
+          value: 'benefitId'
+        },
+        { text: 'Benefit Category', value: 'category' },
+        { text: 'Description', value: 'description' },
+        { text: 'Start Date', value: 'startDate' },
+        { text: 'End Date', value: 'endDate' },
+        { text: 'Actions', value: 'actions', sortable: false }
+      ]
+    }
+  },
+  methods: {
+    editItem (item) {
+      this.editedIndex = this.benefits.indexOf(item)
+      this.editedItem = Object.assign({}, item)
+      this.dialog = true
+    },
+
+    deleteItem (item) {
+      this.showConfirmBox = true
+      const index = this.benefits.indexOf(item)
+      this.deletedIndex = Object.assign({}, index)
+    },
+
+    closeConfirmBox () {
+      this.showConfirmBox = false
+      this.benefits.splice(this.deletedIndex, 1)
+    }
   },
   computed: mapGetters({
-    benefits: "allBenefits"
+    benefits: 'allBenefits'
   }),
-  created() {
-    this.$store.dispatch("getAllBenefits");
+  created () {
+    this.isLoading = true
+    this.$store.dispatch('getAllBenefits')
+    if (this.benefits.length > 0) {
+      this.isLoading = false
+    }
+    eventBus.$on('cancelConfirmBox', (data) => {
+      this.showConfirmBox = data
+    })
   }
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-</style>
+<style scoped></style>

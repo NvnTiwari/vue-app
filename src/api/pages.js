@@ -4,10 +4,10 @@ const api = axios.create({
   baseURL: 'https://levi-project.getsandbox.com'
 })
 
-function getAllPages(cb) {
+function getAllPages (cb) {
   api.get('/getBenefitsPages')
     .then((response) => {
-      console.log(response)
+      // console.log(response)
       cb(response.data.pages)
     })
     .catch((error) => {

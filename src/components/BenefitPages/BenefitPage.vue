@@ -41,22 +41,22 @@
 
 <script>
 import Page from './PageEdit'
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 
 export default {
-  data() {
+  data () {
     return {
-    
+
     }
   },
   computed: mapGetters({
-    pages: "allPages"
+    pages: 'allPages'
   }),
   components: {
     Page
   },
-  created() {
-    this.$store.dispatch("getAllBenefitPages");
+  created () {
+    this.$store.dispatch('getAllBenefitPages')
   }
-};
+}
 </script>
