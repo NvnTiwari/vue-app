@@ -7,7 +7,6 @@ const api = axios.create({
 function getBenefitsApi (cb) {
   api.get('/getBenefits')
     .then((response) => {
-      // console.log(response)
       cb(response.data.benefits)
     })
     .catch((error) => {

@@ -3,19 +3,19 @@
     <div v-if="showConfirmBox">
       <ConfirmBox message="Do you wish to delete the benefit?" :onClick="closeConfirmBox"/>
     </div>
-    <v-data-table :headers="headers" :items="benefits" class="elevation-1">
+    <v-data-table :headers="headers" :items="allBenefits" class="elevation-1">
       <template v-slot:top>
         <v-toolbar flat color="white">
           <h2>View Benefit Details</h2>
           <v-spacer></v-spacer>
           <v-tooltip left>
-          <template v-slot:activator="{ on }">
-          <v-btn class="ma-2" outlined v-on="on" small fab color="indigo" @click="openEditBenefit()">
-            <v-icon>mdi-plus</v-icon>
-          </v-btn>
-          </template>
-          <span>Add Benefit</span>
-        </v-tooltip>
+            <template v-slot:activator="{ on }">
+            <v-btn class="ma-2" outlined v-on="on" small fab color="indigo" @click="openAddBenefit()">
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+            </template>
+            <span>Add Benefit</span>
+          </v-tooltip>
           <EditBenefits :dialog="dialog" :item="editedItem" @benefit-dialog="update" />
         </v-toolbar>
       </template>
@@ -98,34 +98,39 @@ export default {
       this.dialog = false
     },
 
-    openEditBenefit () {
+    openAddBenefit () {
+      this.$store.commit('getModalMessage', 'Create Benefit Details')
       this.dialog = true
     },
 
     editItem (item) {
-      this.editedIndex = this.benefits.indexOf(item)
+      this.$store.dispatch('editBenefits', item.benefitId)
+      this.editedIndex = this.allBenefits.indexOf(item)
       this.editedItem = Object.assign({}, item)
+      this.$store.commit('getModalMessage', 'Edit Benefit Details')
       this.dialog = true
     },
 
     deleteItem (item) {
       this.showConfirmBox = true
-      const index = this.benefits.indexOf(item)
+      const index = this.allBenefits.indexOf(item)
       this.deletedIndex = Object.assign({}, index)
     },
 
     closeConfirmBox () {
       this.showConfirmBox = false
-      this.benefits.splice(this.deletedIndex, 1)
+      this.allBenefits.splice(this.deletedIndex, 1)
     }
   },
-  computed: mapGetters({
-    benefits: 'allBenefits'
-  }),
+  computed: {
+    ...mapGetters([
+      'allBenefits'
+    ])
+  },
   created () {
     this.isLoading = true
     this.$store.dispatch('getAllBenefits')
-    if (this.benefits.length > 0) {
+    if (this.allBenefits.length > 0) {
       this.isLoading = false
     }
     eventBus.$on('cancelConfirmBox', (data) => {

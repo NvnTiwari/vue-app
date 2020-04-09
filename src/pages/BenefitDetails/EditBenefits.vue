@@ -7,7 +7,7 @@
         </v-btn>
       </v-toolbar>
       <v-card-title>
-        <span class="headline"></span>
+        <span class="headline">{{msg}}</span>
       </v-card-title>
       <v-card-text>
         <v-container>
@@ -134,6 +134,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   props: ['dialog', 'item'],
   data () {
@@ -161,6 +162,11 @@ export default {
     save () {
       this.close()
     }
+  },
+  computed: {
+    ...mapGetters([
+      'msg'
+    ])
   }
 }
 </script>

@@ -41,7 +41,7 @@ export default {
 </script>
 
 <style scoped>
-  .levi-header {
+  .levi-header, .v-tab {
     font-weight: bold;
     font-family: Interstate-Regular,sans-serif;
     text-transform: uppercase;

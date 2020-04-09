@@ -3,13 +3,18 @@ import * as mutationType from '../mutation_types'
 
 // initial state
 const state = {
-  all: []
+  all: [],
+  msg: ''
 }
 
 // initial getters
 const getters = {
   allBenefits: state => {
     return state.all
+  },
+
+  msg: state => {
+    return state.msg
   }
 }
 
@@ -21,6 +26,11 @@ const actions = {
     benefitsAPI.getBenefits(benefit => {
       commit(mutationType.SHOW_ALL_BENEFITS, benefit)
     })
+  },
+
+  // Edit benefits
+  editBenefits (context, benefitId) {
+    console.log(benefitId)
   }
 }
 
@@ -28,6 +38,10 @@ const actions = {
 const mutations = {
   [mutationType.SHOW_ALL_BENEFITS] (state, benefit) {
     state.all = benefit
+  },
+
+  getModalMessage (state, msg) {
+    state.msg = msg
   }
 }
 
